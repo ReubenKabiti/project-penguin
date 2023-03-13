@@ -5,10 +5,7 @@ from .models import User
 from . import forms
 
 def index(req):
-
-    is_logged_in = False
-
-    if not is_logged_in:
+    if not req.user.is_authenticated:
         return HttpResponseRedirect("login/")
     else:
         return render(req, "index.html", {})
@@ -20,7 +17,18 @@ def login(req):
             "login_form" : forms.LoginForm(),
         })
     else:
-        pass
+
+        form = forms.LoginForm(req.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = auth.authenticate(username=username, password=password)
+
+            if user == None:
+                return HttpResponseRedirect("/login/")
+
+            auth.login(req, user)
+            return HttpResponseRedirect("/")
 
 def signup(req):
 
