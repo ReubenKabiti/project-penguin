@@ -45,7 +45,7 @@ def signup(req):
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
             try:
-                User.objects.get(username=username)
+                auth.models.User.objects.get(username=username)
                 return HttpResponseRedirect("/signup/")
             except:
                 user = User.objects.create_user(username=username, email=email, password=password)
@@ -54,3 +54,11 @@ def signup(req):
                 return HttpResponseRedirect("/")
         else:
             return HttpResponseRedirect("/signup/")
+
+def logout(req):
+    if req.method == "GET":
+        return render(req, "logout.html", {})
+    else:
+        auth.logout(req)
+        return HttpResponseRedirect("/")
+

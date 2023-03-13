@@ -9,5 +9,6 @@ Signup
 		{% csrf_token %}
 		{{ signup_form }}
 		<input type="submit" value="signup">
+		<p> Already have an account? <a href="/login/"> Login </a></p>
 	</form>
 {% endblock %}
