@@ -35,9 +35,13 @@ def signup(req):
     html_data = {}
 
     if req.method == "GET":
-        return render(req, "signup.html", {
-            "signup_form" : forms.UserCreationForm(),
-        })
+        return render(
+                req,
+                "signup.html",
+                {
+                    "signup_form" : forms.UserCreationForm(),
+                }
+        )
     else:
         form = forms.UserCreationForm(req.POST)
         if form.is_valid():
